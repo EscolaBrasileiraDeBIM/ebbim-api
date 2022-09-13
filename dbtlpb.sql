@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13-Set-2022 às 21:58
+-- Tempo de geração: 13-Set-2022 às 22:10
 -- Versão do servidor: 10.4.24-MariaDB
 -- versão do PHP: 8.1.6
 
@@ -31,7 +31,7 @@ CREATE TABLE `emails` (
   `id` int(11) NOT NULL,
   `email` varchar(50) NOT NULL,
   `principal` bit(1) NOT NULL,
-  `idpessoas` int(11) DEFAULT NULL
+  `idpessoas` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -61,9 +61,9 @@ CREATE TABLE `telefone` (
   `id` int(11) NOT NULL,
   `ddi` int(3) DEFAULT NULL,
   `ddd` int(3) DEFAULT NULL,
-  `numero` int(11) DEFAULT NULL,
+  `numero` int(11) NOT NULL,
   `tipo` enum('celular','residencial','comercial','outros') DEFAULT NULL,
-  `idpessoas` int(11) DEFAULT NULL
+  `idpessoas` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
