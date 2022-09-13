@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13-Set-2022 às 15:52
+-- Tempo de geração: 13-Set-2022 às 17:11
 -- Versão do servidor: 10.4.24-MariaDB
 -- versão do PHP: 8.1.6
 
@@ -28,10 +28,38 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `pessoas` (
-  `nome` varchar(30) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `nome` varchar(30) NOT NULL,
   `dataNascimento` date DEFAULT NULL,
-  `sexo` varchar(1) DEFAULT NULL
+  `genero` enum('M','F') DEFAULT NULL,
+  `tipo` enum('PF','PJ') DEFAULT NULL,
+  `rg` varchar(11) DEFAULT NULL,
+  `cpf` varchar(11) DEFAULT NULL,
+  `cnpj` varchar(14) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Índices para tabelas despejadas
+--
+
+--
+-- Índices para tabela `pessoas`
+--
+ALTER TABLE `pessoas`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `rg` (`rg`),
+  ADD UNIQUE KEY `cpf` (`cpf`),
+  ADD UNIQUE KEY `cnpj` (`cnpj`);
+
+--
+-- AUTO_INCREMENT de tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `pessoas`
+--
+ALTER TABLE `pessoas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
