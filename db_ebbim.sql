@@ -33,7 +33,7 @@ create table ab_emails (
 	cd_email int(11) not null,
     nm_email varchar(50),
     ic_principal boolean,
-    cd_pessoa int(11),
+    cd_pessoa int(11) not null,
 	primary key (cd_email),
     constraint fk_pessoa_email
 		foreign key (cd_pessoa)
@@ -48,7 +48,7 @@ create table ac_telefones (
     cd_ddd int(3),
     cd_numero int(15),
     cd_ramal int(5),
-    cd_pessoa int(11),
+    cd_pessoa int(11) not null,
 	primary key (cd_telefone),
     constraint fk_pessoa_telefone
 		foreign key (cd_pessoa)
@@ -64,11 +64,48 @@ create table ad_colaboradores(
     -- cv é o curriculum vitae
     ds_cv varchar(2000),
     nm_funcoes varchar(200),
-    nm_login varchar(50),
-    cd_seguro_estagio int(20),
-    cd_pessoa int(11),
+    nm_login varchar(50) unique,
+    nm_seguro_estagio varchar(60),
+    cd_pessoa int(11) not null,
     primary key (cd_colaborador),
     constraint fk_pessoa_colaborador
 		foreign key (cd_pessoa)
 		references aa_pessoas(cd_pessoa)
 ) default charset utf8mb4;
+
+create table ag_formularios_colaboradores (
+	cd_formulario int(11) not null,
+    dt_validade_inicio date,
+    dt_validade_fim date,
+    cd_colaborador int(11) not null,
+    primary key (cd_formulario),
+    constraint fk_colaborador_formulario
+		foreign key (cd_colaborador)
+		references ad_colaboradores(cd_colaborador)
+) default charset utf8mb4;
+
+create table ah_horarios_colaboradores (
+	cd_horario int(11) not null,
+    qt_tipo tinyint,
+    qt_dia_semana tinyint,
+    hr_expediente_inicio time,
+    hr_intervalo_inicio time,
+    hr_intervalo_fim time,
+    hr_expediente_fim time,
+    cd_formulario int(11) not null,
+    primary key (cd_horario),
+    constraint fk_formulario_horario
+		foreign key (cd_formulario)
+		references ag_formularios_colaboradores(cd_formulario)
+) default charset utf8mb4;
+
+create table am_historico_colaboracao (
+	cd_colaboracao int(11) not null,
+    dt_entrada date,
+    dt_saida date,
+    cd_colaborador int(11) not null,
+    primary key (cd_colaboracao),
+    constraint fk_colaborador_colaboracao
+		foreign key (cd_colaborador)
+		references ad_colaboradores(cd_colaborador)    
+);
