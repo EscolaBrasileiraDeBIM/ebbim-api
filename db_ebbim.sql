@@ -57,6 +57,15 @@ create table ac_telefones (
 
 create table ad_colaboradores(
 	cd_colaborador int(11) not null,
+    ic_ativo boolean,
+    ic_instrutor boolean,
+    nm_escolaridade varchar(30),
+    nm_funcao_principal varchar(30),
+    -- cv é o curriculum vitae
+    ds_cv varchar(2000),
+    nm_funcoes varchar(200),
+    nm_login varchar(50),
+    cd_seguro_estagio int(20),
     cd_pessoa int(11),
     primary key (cd_colaborador),
     constraint fk_pessoa_colaborador
