@@ -75,6 +75,8 @@ create table ad_colaboradores(
 
 create table ag_formularios_colaboradores (
 	cd_formulario int(11) not null,
+    -- Tipos 0, 1 e 2: 0 - colaborador (não incluí instrutores); 1 - instrutor que está na escola mesmo sem aula, plantão de dúvidas ou atendimento marcado; 2 - instrutor que vem para a escola só quando tema aula, plantão de dúvidas ou atendimento marcado
+    qt_tipo_horario tinyint,
     dt_validade_inicio date,
     dt_validade_fim date,
     cd_colaborador int(11) not null,
@@ -86,7 +88,7 @@ create table ag_formularios_colaboradores (
 
 create table ah_horarios_colaboradores (
 	cd_horario int(11) not null,
-    qt_tipo tinyint,
+    qt_tipo_horario tinyint,
     qt_dia_semana tinyint,
     hr_expediente_inicio time,
     hr_intervalo_inicio time,
@@ -101,11 +103,43 @@ create table ah_horarios_colaboradores (
 
 create table am_historico_colaboracao (
 	cd_colaboracao int(11) not null,
-    dt_entrada date,
-    dt_saida date,
+    dt_utilizacao_inicio date,
+    dt_utilizacao_fim date,
     cd_colaborador int(11) not null,
     primary key (cd_colaboracao),
     constraint fk_colaborador_colaboracao
 		foreign key (cd_colaborador)
-		references ad_colaboradores(cd_colaborador)    
+		references ad_colaboradores(cd_colaborador)
+);
+
+create table an_enderecos (
+	cd_endereco int(11) not null,
+    cd_cep int(8) not null unique,
+    -- tipo é rua, avenida, alameda, rodovia, etc
+    nm_tipo varchar(15) not null,
+    nm_logradouro varchar(50) not null,
+    qt_numero int(5),
+    nm_complemento varchar(30),
+    nm_bairro varchar(50),
+    nm_cidade varchar(30) not null,
+    sg_uf varchar(2) not null,
+    nm_pais varchar(20) not null,
+    qt_area decimal(8,2),
+    cd_hendereco int(11) not null,
+    primary key (cd_endereco)
+);
+
+create table anh_historico_enderecos (
+	cd_hendereco int(11) not null,
+    dt_entrada date,
+    dt_saida date,
+    cd_pessoa int(11) not null,
+    cd_endereco int(11) not null,
+    primary key (cd_hendereco),
+    constraint fk_pessoa_hendereco
+		foreign key (cd_pessoa)
+		references aa_pessoas(cd_pessoa),
+	constraint fk_endereco_hendereco
+		foreign key (cd_endereco)
+		references an_enderecos(cd_endereco)
 );
