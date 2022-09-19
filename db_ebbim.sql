@@ -2,7 +2,7 @@ create database db_ebbim;
 use db_ebbim;
 
 create table aa_pessoas(
-	cd_pessoa int(9) not null,
+	cd_pessoa varchar(10) not null,
 	nm_pessoa varchar(50) not null,
     nm_apelido varchar(50),
     nm_razao_social varchar(50),
@@ -21,22 +21,22 @@ create table aa_pessoas(
 );
 
 create table ac_telefone(
-	cd_telefone int(9),
+	cd_telefone varchar(10),
     nm_tipo varchar(20),
     cd_ddi int(2),
     cd_ddd int(2),
     cd_numero int(15),
     cd_ramal int(5),
-    cd_pessoa int(9),
+    cd_pessoa varchar(10),
     primary key (cd_telefone),
     constraint fk_pessoas_telefone foreign key (cd_pessoa) references aa_pessoas(cd_pessoa)
 );
 
 create table ab_email(
-	cd_email int(9),
+	cd_email varchar(10),
     nm_email varchar(50),
     ic_principal boolean,
-    cd_pessoa int(9),
+    cd_pessoa varchar(10),
     primary key (cd_email),
     constraint fk_pessoas_email foreign key (cd_pessoa) references aa_pessoas(cd_pessoa)
 );
