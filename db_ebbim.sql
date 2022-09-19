@@ -1,4 +1,6 @@
-create database db_ebbim;
+create database db_ebbim
+	default charset utf8mb4
+	default collate utf8mb4_general_ci;
 use db_ebbim;
 
 create table aa_pessoas(
@@ -6,19 +8,25 @@ create table aa_pessoas(
 	nm_pessoa varchar(50) not null,
     nm_apelido varchar(50),
     nm_razao_social varchar(50),
-    ic_estrangeiro boolean,
-    ic_genero varchar(20) not null,
-    ic_pf boolean,
-    cd_cpf_cnpj varchar(13),
-    cd_inscricao_estadual int(10),
-    cd_inscricao_municipal int(10),
-    nm_fornecedor varchar(50),
-    nm_empresa varchar(50),
-    ds_comentario varchar(120),
-    cd_rg int(10),
     dt_nascimento date,
-    primary key (cd_pessoa)
-);
+    -- estrangeiro registra se é ou não estrangeiro, enquanto a nacionalidade registra qual o gentílico do país onde a pessoa nasceu
+    ic_estrangeiro boolean,
+    nm_nacionalidade varchar(22) default 'brasileiro',
+    -- gênero inicialmente é masculino ou feminino
+    ic_genero varchar(20),
+    ic_pf boolean,
+    cd_cpf_cnpj varchar(14) unique,
+    cd_rg int(11) unique,
+    cd_inscricao_estadual int(9) unique,
+    cd_inscricao_municipal int(11) unique,
+    -- fornecedor é se a pessoa fornece algo, como por exemplo alimentos, remédios, produtos de limpeza, e etc
+    nm_fornecedor varchar(50),
+    nm_area_atuacao varchar(50),
+    nm_empresa varchar(50),
+    nm_funcao varchar(30),
+    ds_comentario varchar(140),
+	primary key (cd_pessoa)
+) default charset utf8mb4;
 
 create table ac_telefone(
 	cd_telefone varchar(10),
