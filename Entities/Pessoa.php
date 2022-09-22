@@ -1,12 +1,12 @@
 <?php
-    class Pessoas{
+    class Pessoa{
         public String $id;
         public String $nome;
         public String $apelido;
         public String $razaoSocial;
-        public bool $estrangeiro;
+        public String $estrangeiro;
         public String $genero;
-        public bool $pf;
+        public String $pf;
         public String $cpfCnpj;
         public String $ie;
         public String $im;
