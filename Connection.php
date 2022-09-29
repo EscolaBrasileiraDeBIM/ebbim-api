@@ -9,6 +9,15 @@
             $this->Connect();
         }
 
+        // public function __construct() {
+        //     $this->user = 'root';
+        //     $this->password = '';
+        //     $this->database = 'db_ebbim';
+        //     $this->host = 'localhost:3306';
+
+        //     $this->Connect();
+        // }
+
         protected function Connect() {
             $this->mysqli = new mysqli($this->host, $this->user, $this->password, $this->database);
 
