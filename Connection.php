@@ -1,9 +1,9 @@
 <?php
     class DB{
         public function __construct() {
-            $this->user = 'root';
-            $this->password = '';
-            $this->database = 'db_ebbim';
+            $this->user = 'tilabc78_sistema';
+            $this->password = 'Qf{Q%4+$Yg49';
+            $this->database = 'tilabc78_sistema';
             $this->host = 'localhost:3306';
 
             $this->Connect();
