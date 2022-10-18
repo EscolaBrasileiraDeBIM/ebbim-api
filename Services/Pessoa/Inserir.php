@@ -4,7 +4,7 @@
     function Inserir($nome, $apelido, $razaoSocial, $estrangeiro, $genero, $pf, $cpfCnpj, $ie, $im, $fornecedor, $empresa, $comentario, $rg, $dataNascimento): ResultService {
         $result = new ResultService();      
 
-        if($nome == null || $genero == null || $pf == null){
+        if($nome == null || $pf == null){
             //Validação dos campos aqui, caso algum esteja errado o erro é 400.
             $result->Fail(400, "One or more fields are incorrect.");
             return $result;

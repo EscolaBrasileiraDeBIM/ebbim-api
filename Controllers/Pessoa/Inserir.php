@@ -7,7 +7,7 @@
         $_POST['apelido'] == null ? "null" : $_POST['apelido'],        
         $_POST['razaoSocial'] == null ? "null" : $_POST['razaoSocial'],
         $_POST['estrangeiro'] == null ? "null" : $_POST['estrangeiro'],
-        $_POST['genero'] == null ? null : $_POST['genero'],
+        $_POST['genero'] == null ? "null" : $_POST['genero'],
         $_POST['pf'] == null ? null : $_POST['pf'],
         $_POST['cpfCnpj'] == null ? "null" : $_POST['cpfCnpj'],
         $_POST['ie'] == null ? "0" : $_POST['ie'],
