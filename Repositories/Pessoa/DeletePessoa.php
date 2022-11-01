@@ -8,7 +8,7 @@
             $res_insert = $DB->ExecSQL(
                 "
                     DELETE FROM
-                        AA_Pessoas
+                        aa_pessoas
                     WHERE cd_pessoa = '$id'
                 ;",
                 MYSQLI_USE_RESULT
