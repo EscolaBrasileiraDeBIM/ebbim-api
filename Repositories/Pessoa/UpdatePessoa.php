@@ -7,9 +7,9 @@
         try {
             $res_insert = $DB->ExecSQL(
                 "
-                    UPDATE AA_PESSOAS
+                    UPDATE aa_pessoa
                     SET $campo = '$novoValor'
-                    WHERE CD_PESSOA = '$id'
+                    WHERE cd_pessoa = '$id'
                 ;",
                 MYSQLI_USE_RESULT
             );
