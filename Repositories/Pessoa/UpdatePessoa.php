@@ -7,7 +7,7 @@
         try {
             $res_insert = $DB->ExecSQL(
                 "
-                    UPDATE aa_pessoa
+                    UPDATE aa_pessoas
                     SET $campo = '$novoValor'
                     WHERE cd_pessoa = '$id'
                 ;",
