@@ -1,3 +1,4 @@
+drop database db_ebbim;
 create database db_ebbim
 	default charset utf8mb4
 	default collate utf8mb4_general_ci;
@@ -139,6 +140,11 @@ create table cc_preco_base_hist(
 
 create table cf_ficha_de_instrutor(
 	cd_ficha varchar(10),
+    ic_assistiu_turma boolean,
+    ic_fez_prova boolean,
+    ic_apto boolean,
+    ic_tem_interesse boolean,
+    nm_royalties varchar(30),
 	cd_pessoa varchar(10) not null,
 	cd_colaborador varchar(10),
     cd_curso3dig varchar(3),
