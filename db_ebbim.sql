@@ -1,4 +1,3 @@
-drop database db_ebbim;
 create database db_ebbim
 	default charset utf8mb4
 	default collate utf8mb4_general_ci;
@@ -76,6 +75,50 @@ create table ce_tipo_de_produto(
     primary key (sg_tipo_de_produto)
 );
 
+create table da_apostilas(
+	cd_apostila varchar(10),
+	nm_titulo varchar(50),
+    primary key (cd_apostila)
+);
+
+create table da_certificado_digital(
+	cd_certificado_digital varchar(10),
+    qt_certif_num_assinaturas int(3),
+    primary key (cd_certificado_digital)
+);
+
+create table da_certificado_papel(
+	cd_certificado_papel varchar(10),
+    qt_certif_num_assinaturas int(3),
+    primary key (cd_certificado_papel)
+);
+
+create table da_fichas(
+	cd_fichas varchar(10),
+    primary key (cd_fichas)
+);
+
+create table da_caderno_de_exercicios(
+	cd_caderno_de_exercicios varchar(10),
+    primary key (cd_caderno_de_exercicios)
+);
+
+create table da_mousepad(
+	cd_mousepad varchar(10),
+    primary key (cd_mousepad)
+);
+
+create table dg_cadastro_de_kits(
+	cd_cadastro_de_kits varchar(10),
+	cd_fichas varchar(10),
+    cd_caderno_de_exercicios varchar(10),
+    cd_mousepad varchar(10),
+    primary key (cd_cadastro_de_kits),
+    constraint fk_kits_fichas foreign key (cd_fichas) references da_fichas(cd_fichas),
+    constraint fk_kits_cad_exercicios foreign key (cd_caderno_de_exercicios) references da_caderno_de_exercicios(cd_caderno_de_exercicios),
+    constraint fk_kits_mousepad foreign key (cd_mousepad) references da_mousepad(cd_mousepad)
+);
+
 create table ca_cursos(
 	cd_curso varchar(10),
 	cd_curso3dig varchar(3) unique,
@@ -91,11 +134,26 @@ create table ca_cursos(
     cd_tipo_de_contrato int(1),
     sg_produto varchar(3),
     cd_versao varchar(1),
-    vl_horas_aula int(2),
+    qt_horas_aula int(2),
+    -- qt_horas_atendimento define a quantidade de horas de plantão ou disponível para tirar dúvidas
+    qt_horas_atendimento int(2),
+    qt_duracao_aula_semana int(2),
+    qt_duracao_aula_fds int(2),
+    qt_aula_semana int(2),
+    qt_aula_fds int(2),
+    nm_pasta_exercicios varchar(20),
     -- cd_data é um cálculo no FM (c_tabelaPrecoAtiva) que pega o ID primário da tabela cb_data_reajuste
 	cd_data varchar(10) unique,
+    cd_apostila varchar(10),
+    cd_certificado_digital varchar(10),
+    cd_certificado_papel varchar(10),
+    cd_cadastro_de_kits varchar(10),
     primary key (cd_curso),
     constraint fk_cursos_tipo_de_contrato foreign key (cd_tipo_de_contrato) references cd_tipo_de_contrato(cd_tipo_de_contrato),
+    constraint fk_cursos_apostilas foreign key (cd_apostila) references da_apostilas(cd_apostila),
+    constraint fk_cursos_certif_digital foreign key (cd_certificado_digital) references da_certificado_digital(cd_certificado_digital),
+    constraint fk_cursos_certif_papel foreign key (cd_certificado_papel) references da_certificado_papel(cd_certificado_papel),
+    constraint fk_cursos_kits foreign key (cd_cadastro_de_kits) references dg_cadastro_de_kits(cd_cadastro_de_kits),
     constraint fk_cursos_tipo_de_produto foreign key (sg_tipo_de_produto) references ce_tipo_de_produto(sg_tipo_de_produto)
 );
 
@@ -152,4 +210,14 @@ create table cf_ficha_de_instrutor(
     constraint fk_pessoas_ficha_de_instrutor foreign key (cd_pessoa) references aa_pessoas(cd_pessoa),
     constraint fk_colaboradores_ficha_de_instrutor foreign key (cd_colaborador) references ad_colaboradores(cd_colaborador),
     constraint fk_cursos_ficha_de_instrutor foreign key (cd_curso3dig) references ca_cursos(cd_curso3dig)
+);
+
+create table cm_pontuacao_hist(
+	cd_pontuacao varchar(10),
+	dt_inicio date,
+	dt_fim date,
+    qt_pontuacao int(3),
+    cd_curso3dig varchar(3),
+    primary key (cd_pontuacao),
+    constraint fk_cursos_pontuacao foreign key (cd_curso3dig) references ca_cursos(cd_curso3dig)
 );
