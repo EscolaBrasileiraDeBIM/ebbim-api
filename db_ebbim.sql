@@ -78,17 +78,21 @@ create table ce_tipo_de_produto(
 create table da_apostilas(
 	cd_apostila varchar(10),
 	nm_titulo varchar(50),
+    im_capa mediumblob,
+    im_miolo mediumblob,
     primary key (cd_apostila)
 );
 
 create table da_certificado_digital(
 	cd_certificado_digital varchar(10),
+    im_miolo mediumblob,
     qt_certif_num_assinaturas int(3),
     primary key (cd_certificado_digital)
 );
 
 create table da_certificado_papel(
 	cd_certificado_papel varchar(10),
+    im_miolo mediumblob,
     qt_certif_num_assinaturas int(3),
     primary key (cd_certificado_papel)
 );
@@ -100,11 +104,13 @@ create table da_fichas(
 
 create table da_caderno_de_exercicios(
 	cd_caderno_de_exercicios varchar(10),
+    im_miolo mediumblob,
     primary key (cd_caderno_de_exercicios)
 );
 
 create table da_mousepad(
 	cd_mousepad varchar(10),
+    im_miolo mediumblob,
     primary key (cd_mousepad)
 );
 
@@ -123,7 +129,7 @@ create table ca_cursos(
 	cd_curso varchar(10),
 	cd_curso3dig varchar(3) unique,
     nm_oficial varchar(50),
-    nm_status varchar(15),
+    ic_status varchar(15),
 	-- dc_interno é o código completo do curso, criado a partir de outros dados. Exemplos PT-CR-01-4DV-A-08, PT-CR-01-VWR-B-08, PT-CR-02-BLD-A-24, e etc
 	dc_interno varchar(20),
 	-- nm_interno é o apelido do curso
@@ -142,6 +148,28 @@ create table ca_cursos(
     qt_aula_semana int(2),
     qt_aula_fds int(2),
     nm_pasta_exercicios varchar(20),
+    ds_descricao text,
+    ds_dados_tecnicos text,
+    ds_ext_material_didativo text,
+    ic_período_dia varchar(5),
+    qt_vezes_semana int(1),
+    ds_disponibilidade text,
+    ds_disponibilidade_manual text,
+    ds_conteudo text,
+    ds_publico_alvo text,
+    ds_pre_requisitos text,
+    ds_cronograma text,
+    ic_hashtag varchar(5000),
+    qt_minima_alunos int(1),
+    qt_maxima_alunos int(2),
+    dt_primeira_turma date,
+    qt_turmas int(3),
+    nm_responsavel varchar(20),
+    ic_gera_royalties varchar(3),
+    -- referente ao pagamento de royalties ao parceiro do curso
+    nm_parceria_nome varchar(50),
+    cd_tabela_preco_ativa varchar(20),
+    nm_curso_certificado varchar(50),
     -- cd_data é um cálculo no FM (c_tabelaPrecoAtiva) que pega o ID primário da tabela cb_data_reajuste
 	cd_data varchar(10) unique,
     cd_apostila varchar(10),
@@ -155,6 +183,18 @@ create table ca_cursos(
     constraint fk_cursos_certif_papel foreign key (cd_certificado_papel) references da_certificado_papel(cd_certificado_papel),
     constraint fk_cursos_kits foreign key (cd_cadastro_de_kits) references dg_cadastro_de_kits(cd_cadastro_de_kits),
     constraint fk_cursos_tipo_de_produto foreign key (sg_tipo_de_produto) references ce_tipo_de_produto(sg_tipo_de_produto)
+);
+
+create table ca_iua_softwares(
+	cd_ca_software varchar(10),
+    nm_link_download_teste varchar(50),
+    ic_principal boolean,
+    nm_software varchar(50),
+    nm_idioma varchar(20),
+    cd_software varchar(10),
+	cd_curso3dig varchar(3),
+    primary key (cd_ca_software),
+    constraint fk_cursos_ca_software foreign key (cd_curso3dig) references ca_cursos(cd_curso3dig)
 );
 
 create table cb_data_reajuste(
@@ -210,6 +250,21 @@ create table cf_ficha_de_instrutor(
     constraint fk_pessoas_ficha_de_instrutor foreign key (cd_pessoa) references aa_pessoas(cd_pessoa),
     constraint fk_colaboradores_ficha_de_instrutor foreign key (cd_colaborador) references ad_colaboradores(cd_colaborador),
     constraint fk_cursos_ficha_de_instrutor foreign key (cd_curso3dig) references ca_cursos(cd_curso3dig)
+);
+
+create table ci_tabela_royalties(
+	cd_royalties varchar(10),
+	dt_inicio date,
+	dt_termino date,
+    cd_pessoa varchar(10),
+    ds_obs tinytext,
+    pc_turma decimal(3,2),
+    vl_aluno decimal(7,2),
+    vl_turma decimal(7,2),
+    cd_carrinho_aberto varchar(10),
+    cd_curso3dig varchar(3),
+    primary key (cd_royalties),
+    constraint fk_cursos_royalties foreign key (cd_curso3dig) references ca_cursos(cd_curso3dig)
 );
 
 create table cm_pontuacao_hist(
