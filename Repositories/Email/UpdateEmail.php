@@ -7,9 +7,9 @@
         try {
             $res_insert = $DB->ExecSQL(
                 "
-                    UPDATE AB_EMAIL
+                    UPDATE ab_email
                     SET $campo = '$novoValor'
-                    WHERE CD_EMAIL = '$id'
+                    WHERE cd_email = '$id'
                 ;",
                 MYSQLI_USE_RESULT
             );
