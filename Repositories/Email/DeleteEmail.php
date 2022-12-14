@@ -8,7 +8,7 @@
             $res_insert = $DB->ExecSQL(
                 "
                     DELETE FROM
-                        AB_EMAIL
+                        ab_email
                     WHERE cd_email = '$id'
                 ;",
                 MYSQLI_USE_RESULT
