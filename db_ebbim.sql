@@ -78,6 +78,7 @@ create table ce_tipo_de_produto(
 create table da_apostilas(
 	cd_apostila varchar(10),
 	nm_titulo varchar(50),
+    -- verificar melhor forma para armazenar as imagens
     im_capa mediumblob,
     im_miolo mediumblob,
     primary key (cd_apostila)
@@ -85,6 +86,7 @@ create table da_apostilas(
 
 create table da_certificado_digital(
 	cd_certificado_digital varchar(10),
+    -- verificar melhor forma para armazenar as imagens
     im_miolo mediumblob,
     qt_certif_num_assinaturas int(3),
     primary key (cd_certificado_digital)
@@ -92,6 +94,7 @@ create table da_certificado_digital(
 
 create table da_certificado_papel(
 	cd_certificado_papel varchar(10),
+    -- verificar melhor forma para armazenar as imagens
     im_miolo mediumblob,
     qt_certif_num_assinaturas int(3),
     primary key (cd_certificado_papel)
@@ -104,12 +107,14 @@ create table da_fichas(
 
 create table da_caderno_de_exercicios(
 	cd_caderno_de_exercicios varchar(10),
+    -- verificar melhor forma para armazenar as imagens
     im_miolo mediumblob,
     primary key (cd_caderno_de_exercicios)
 );
 
 create table da_mousepad(
 	cd_mousepad varchar(10),
+    -- verificar melhor forma para armazenar as imagens
     im_miolo mediumblob,
     primary key (cd_mousepad)
 );
@@ -140,7 +145,7 @@ create table ca_cursos(
     cd_tipo_de_contrato int(1),
     sg_produto varchar(3),
     cd_versao varchar(1),
-    qt_horas_aula int(2),
+    qt_horas_aula int(3),
     -- qt_horas_atendimento define a quantidade de horas de plantão ou disponível para tirar dúvidas
     qt_horas_atendimento int(2),
     qt_duracao_aula_semana int(2),
@@ -150,7 +155,8 @@ create table ca_cursos(
     nm_pasta_exercicios varchar(20),
     ds_descricao text,
     ds_dados_tecnicos text,
-    ds_ext_material_didativo text,
+    -- ds_ext_material_didatico é um complemento manual ao ds_dados_tecnicos que, por sua vez, é um cálculo
+    ds_ext_material_didatico text,
     ic_período_dia varchar(5),
     qt_vezes_semana int(1),
     ds_disponibilidade text,
@@ -159,7 +165,7 @@ create table ca_cursos(
     ds_publico_alvo text,
     ds_pre_requisitos text,
     ds_cronograma text,
-    ic_hashtag varchar(5000),
+    ic_hashtag text,
     qt_minima_alunos int(1),
     qt_maxima_alunos int(2),
     dt_primeira_turma date,
@@ -213,7 +219,6 @@ create table cc_preco_base(
 	dt_fim date,
     -- nm_status é o c_ativo no FM
     nm_status varchar(15),
-    -- cd_data é o #ID_CB no FM
     vl_preco_base decimal(7,2),
     vl_preco_indiv decimal(7,2),
     vl_preco_online decimal(7,2),
@@ -222,6 +227,7 @@ create table cc_preco_base(
     vl_preco_sab_indiv decimal(7,2),
     vl_preco_sab_online decimal(7,2),
     vl_preco_sab_promo decimal(7,2),
+    -- cd_data é o #ID_CB no FM
 	cd_data varchar(10) unique,
     primary key (cd_preco),
     constraint fk_cursos_preco foreign key (cd_data) references ca_cursos(cd_data)
@@ -243,11 +249,9 @@ create table cf_ficha_de_instrutor(
     ic_apto boolean,
     ic_tem_interesse boolean,
     nm_royalties varchar(30),
-	cd_pessoa varchar(10) not null,
 	cd_colaborador varchar(10),
     cd_curso3dig varchar(3),
     primary key (cd_ficha),
-    constraint fk_pessoas_ficha_de_instrutor foreign key (cd_pessoa) references aa_pessoas(cd_pessoa),
     constraint fk_colaboradores_ficha_de_instrutor foreign key (cd_colaborador) references ad_colaboradores(cd_colaborador),
     constraint fk_cursos_ficha_de_instrutor foreign key (cd_curso3dig) references ca_cursos(cd_curso3dig)
 );
