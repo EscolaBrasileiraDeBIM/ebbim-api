@@ -140,7 +140,8 @@ create table ca_cursos(
 	-- nm_interno é o apelido do curso
     nm_interno varchar(50),
     nm_link_site varchar(50),
-    sg_idioma varchar(2),
+    cd_site varchar(10),
+	sg_idioma varchar(2),
     sg_tipo_de_produto varchar(2),
     cd_tipo_de_contrato int(1),
     sg_produto varchar(3),
@@ -182,6 +183,8 @@ create table ca_cursos(
     cd_certificado_digital varchar(10),
     cd_certificado_papel varchar(10),
     cd_cadastro_de_kits varchar(10),
+    -- cd_curso_preco é o código de 3 dig do curso acrescido da versão, separados por um hífen
+    cd_curso_preco varchar(5) unique,
     primary key (cd_curso),
     constraint fk_cursos_tipo_de_contrato foreign key (cd_tipo_de_contrato) references cd_tipo_de_contrato(cd_tipo_de_contrato),
     constraint fk_cursos_apostilas foreign key (cd_apostila) references da_apostilas(cd_apostila),
@@ -208,8 +211,7 @@ create table cb_data_reajuste(
 	dt_inicio date,
 	dt_fim date,
 	cd_curso3dig varchar(3),
-    primary key (cd_data),
-    constraint fk_cursos_data foreign key (cd_curso3dig) references ca_cursos(cd_curso3dig)
+    primary key (cd_data)
 );
 
 create table cc_preco_base(
@@ -229,8 +231,12 @@ create table cc_preco_base(
     vl_preco_sab_promo decimal(7,2),
     -- cd_data é o #ID_CB no FM
 	cd_data varchar(10) unique,
+    -- cd_curso_preco é o código de 3 dig do curso acrescido da versão, separados por um hífen
+    cd_curso_preco varchar(5),
     primary key (cd_preco),
-    constraint fk_cursos_preco foreign key (cd_data) references ca_cursos(cd_data)
+    constraint fk_cursos_preco foreign key (cd_data) references ca_cursos(cd_data),
+    constraint fk_cursos_preco_cod foreign key (cd_curso_preco) references ca_cursos(cd_curso_preco),
+    constraint fk_data_preco foreign key (cd_data) references cb_data_reajuste(cd_data)
 );
 
 create table cc_preco_base_hist(
@@ -256,6 +262,58 @@ create table cf_ficha_de_instrutor(
     constraint fk_cursos_ficha_de_instrutor foreign key (cd_curso3dig) references ca_cursos(cd_curso3dig)
 );
 
+create table cg_eventos(
+	cd_evento varchar(10),
+    
+    cd_evento4dig varchar(3) unique,
+    nm_oficial varchar(50),
+    nm_interno varchar(50),
+    sg_tipo varchar(20),
+    ic_status varchar(15),
+    cd_site varchar(10),
+    
+    -- verificar melhor forma para armazenar as imagens
+    im_imagem mediumblob,
+    dt_evento date,
+    hr_inicio datetime,
+    hr_termino datetime,
+    hr_duracao time,
+    nm_promotor varchar(50),
+    ic_exibicao varchar(20),
+    nm_local varchar(50),
+    dc_endereco varchar(100),
+    nm_link_inscricao varchar(50),
+    nm_link_reuniao varchar(50),
+    ic_gratuito varchar(3),
+    vl_evento decimal(7,2),
+    ds_evento text,
+    ds_conteudo text,
+    ds_dados_tecnicos text,
+    
+    ic_facebook varchar(3),
+    nm_fc_link varchar(50),
+    qt_fc_interessados int(4),
+    qt_fc_compareceram int(4),
+    qt_fc_convidados int(4),
+    
+    nm_link_thumb varchar(100),
+    -- verificar melhor forma para armazenar as imagens
+    im_thumb mediumblob,
+    ic_thumb_correta varchar(3),
+    ic_cupom_desconto varchar(3),
+    pc_cupom_desconto dec(3,2),
+    cd_cupom_desconto varchar(20),
+    dt_validade_cupom datetime,
+    ic_sorteio varchar(3),
+    nm_produto_sorteado varchar(50),
+    ic_material_apoio varchar(3),
+    nm_link_material_apoio varchar(50),
+    nm_link_video_nao_editado varchar(50),
+    nm_link_video_editado varchar(50),
+    
+    primary key (cd_evento)
+);
+
 create table ci_tabela_royalties(
 	cd_royalties varchar(10),
 	dt_inicio date,
@@ -279,4 +337,20 @@ create table cm_pontuacao_hist(
     cd_curso3dig varchar(3),
     primary key (cd_pontuacao),
     constraint fk_cursos_pontuacao foreign key (cd_curso3dig) references ca_cursos(cd_curso3dig)
+);
+
+create table gd_inscritos_em_eventos(
+	cd_inscrito varchar(10),
+    
+    nm_funcao varchar(20),
+    nm_exibicao varchar(10),
+    ic_confirmacao varchar(3),
+    ic_envio_link varchar(3),
+    ic_email_pre_evento varchar(3),
+    
+    cd_pessoa varchar(10) not null,
+    cd_evento varchar(10),
+    primary key (cd_inscrito),
+    constraint fk_inscrito_evento foreign key (cd_evento) references cg_eventos(cd_evento),
+    constraint fk_inscrito_pessoa foreign key (cd_pessoa) references aa_pessoas(cd_pessoa)
 );
