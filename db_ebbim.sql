@@ -305,7 +305,7 @@ create table cg_eventos(
     cd_cupom_desconto varchar(20),
     dt_validade_cupom datetime,
     ic_sorteio varchar(3),
-    nm_produto_sorteado varchar(50),
+    nm_premio varchar(50),
     ic_material_apoio varchar(3),
     nm_link_material_apoio varchar(50),
     nm_link_video_nao_editado varchar(50),
@@ -343,14 +343,45 @@ create table gd_inscritos_em_eventos(
 	cd_inscrito varchar(10),
     
     nm_funcao varchar(20),
-    nm_exibicao varchar(10),
+    nm_exibicao_pre varchar(10),
     ic_confirmacao varchar(3),
     ic_envio_link varchar(3),
     ic_email_pre_evento varchar(3),
+    ic_quer_certificado varchar(20),
+    
+    ic_pago varchar(3),
+    vl_pago decimal(7,2),
+    ic_presenca varchar(3),
+    nm_exibicao_pos varchar(10),
+    ic_sorteio varchar(3),
+    nm_premio varchar(50),
+    ic_envio_certificado varchar(20),
+    -- Registro de envio de e-mail com os links de video editado e não editado
+    ic_email_video_nEdit varchar(3),
+    ic_email_video_Edit varchar(3),
     
     cd_pessoa varchar(10) not null,
     cd_evento varchar(10),
     primary key (cd_inscrito),
     constraint fk_inscrito_evento foreign key (cd_evento) references cg_eventos(cd_evento),
     constraint fk_inscrito_pessoa foreign key (cd_pessoa) references aa_pessoas(cd_pessoa)
+);
+
+create table gc_interacoes(
+	cd_interacao varchar(10),
+    
+    nm_tipo varchar(40),
+    nm_assunto varchar(40),
+    nm_atendente varchar(50),
+    dt_interacao datetime,
+    ic_efetivo boolean,
+    ds_interacao text,
+    
+    dt_prox_contato date,
+    nm_interesse_relacionado varchar(50),
+    ic_status varchar(30),
+    
+    cd_inscrito varchar(10),
+    primary key (cd_interacao),
+    constraint fk_inscrito_interacao foreign key (cd_inscrito) references gd_inscritos_em_eventos(cd_inscrito)
 );
