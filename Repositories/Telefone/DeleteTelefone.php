@@ -8,7 +8,7 @@
             $res_insert = $DB->ExecSQL(
                 "
                     DELETE FROM
-                        AC_TELEFONE
+                        ac_telefone
                     WHERE cd_telefone = '$id'
                 ;",
                 MYSQLI_USE_RESULT
