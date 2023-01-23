@@ -3,7 +3,10 @@ const router = express.Router();
 
 const EmailController = require('../Controllers/Email');
 
-router.get('/', EmailController.get);
-router.get('/a/:id', EmailController.getA);
+router.get('/:id', EmailController.getEmailById);
+router.get('/aa/:id', EmailController.getEmailsByAA);
+router.post('/delete', EmailController.delete);
+router.post('/create', EmailController.create);
+router.patch('/update', EmailController.update);
 
 module.exports = router;
