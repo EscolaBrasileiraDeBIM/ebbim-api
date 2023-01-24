@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
 
-const Email = require('./Models/Email');
-const emailRoute = require('./Routes/router');
+const emailRoute = require('./routes/Email');
+const pessoaRoute = require('./routes/Pessoa');
+const telefoneRoute = require('./routes/Telefone');
 
 app.use(express.urlencoded({
     extended: true
@@ -11,6 +12,8 @@ app.use(express.urlencoded({
 app.use(express.json());
 
 app.use('/email', emailRoute);
+app.use('/pessoa', pessoaRoute);
+app.use('/telefone', telefoneRoute);
 
 app.listen(3000, () => {
     console.log("Conectado");

@@ -1,16 +1,19 @@
 const pool = require('../db/conn');
 const Response = require('../helpers/response');
 
-module.exports = class Email {
-    constructor({id, email, principal, idaa}) {
+module.exports = class Telefone {
+    constructor({id, tipo, ddi, ddd, numero, ramal, idaa}) {
         this.id = id;
-        this.email = email;
-        this.principal = principal;
-        this.idaa = idaa;       
+        this.tipo = tipo;
+        this.ddi = ddi;
+        this.ddd = ddd;
+        this.numero = numero;
+        this.ramal = ramal;
+        this.idaa = idaa;
     }
 
-    static async getEmailByID(id){
-        const query = "SELECT * FROM ab_email WHERE cd_email = '" + id+"'";
+    static async getTelefoneByID(id){
+        const query = "SELECT * FROM ac_telefone WHERE cd_telefone = '" +id+"'";
 
         try {
             const [result, columns] = await pool.execute(query);
@@ -35,8 +38,8 @@ module.exports = class Email {
         }
     }
 
-    static async getEmailsByAA(id) {
-        const query = "SELECT * FROM ab_email WHERE cd_pessoa = '" + id+"'";
+    static async getTelefonesByAA(id) {
+        const query = "SELECT * FROM ac_telefone WHERE cd_pessoa = '" + id+"'";
 
         try {
             const [result, columns] = await pool.execute(query);
@@ -62,7 +65,7 @@ module.exports = class Email {
     }
 
     static async deleteById(id) {
-        const query = "DELETE FROM ab_email WHERE cd_email = '"+id+"'";
+        const query = "DELETE FROM ac_telefone WHERE cd_telefone = '"+id+"'";
 
         try {
             await pool.execute(query);
@@ -81,7 +84,7 @@ module.exports = class Email {
     }
 
     static async deleteByAa(id) {
-        const query = "DELETE FROM ab_email WHERE cd_pessoa = '"+id+"'";
+        const query = "DELETE FROM ac_telefone WHERE cd_pessoa = '"+id+"'";
 
         try {
             await pool.execute(query);
@@ -101,23 +104,23 @@ module.exports = class Email {
 
     async create() {
         try {
-            const query = "SELECT max(cd_email) as maxId FROM ab_email";
+            const query = "SELECT max(cd_telefone) as maxId FROM ac_telefone";
             const [result, columns] = await pool.execute(query);
-            const maxId = result[0].maxId ?? "AB00000";
+            const maxId = result[0].maxId ?? "AC00000";
             const newNum = parseInt(maxId.substring(2)) + 1;
-            const newId = "AB".concat(newNum.toString().padStart(5,'0'));
-            this.id = newId;
+            this.id = "AC".concat(newNum.toString().padStart(5,'0'));
         } catch(err) {
             const res = new Response(500, {
-                message: "Can't create new ID_AB: "+err
+                message: "Can't create new ID_AC: "+err
             });
             return res;
         }
 
         try {
             this.prepareQuery();
-            const query = "INSERT INTO ab_email VALUES ("+this.id+","+this.email+","+this.principal+","+this.idaa+")";
+            const query = "INSERT INTO ac_telefone VALUES ("+this.id+", "+this.tipo+", "+this.ddi+","+this.ddd+","+this.numero+", "+this.ramal+", "+this.idaa+")";
             await pool.execute(query);
+
             this.restoreValues();
 
             const res = new Response(201, {
@@ -127,7 +130,7 @@ module.exports = class Email {
             return res;
         } catch(err) {
             const res = new Response(500, {
-                message: "Can't create new Email: "+err
+                message: "Can't create new Telefone: "+err
             });
             return res;
         }
@@ -136,8 +139,9 @@ module.exports = class Email {
     async update() {
         try {
             this.prepareQuery();
-            const query = "UPDATE ab_email SET nm_email = "+this.email+", ic_principal = "+this.principal+", cd_pessoa = "+this.idaa+" WHERE cd_email = "+this.id+"";
+            const query = "UPDATE ac_telefone SET nm_tipo="+this.tipo+",cd_ddi="+this.ddi+",cd_ddd="+this.ddd+",cd_numero="+this.numero+",cd_ramal="+this.ramal+",cd_pessoa="+this.idaa+" WHERE cd_telefone="+this.id+"";
             await pool.execute(query);
+
             this.restoreValues();
 
             const res = new Response(200, {
@@ -153,17 +157,23 @@ module.exports = class Email {
         }
     }
 
-    prepareQuery() {
+    prepareQuery(){        
         this.id = this.id ? "'"+this.id+"'" : null;
-        this.email = this.email ? "'"+this.email+"'" : null;
-        this.principal = this.principal ? "'"+this.principal+"'" : null;
+        this.tipo = this.tipo ? "'"+this.tipo+"'" : null;
+        this.ddi = this.ddi ? "'"+this.ddi+"'" : null;
+        this.ddd = this.ddd ? "'"+this.ddd+"'" : null;
+        this.numero = this.numero ? "'"+this.numero+"'" : null;;
+        this.ramal = this.ramal ? "'"+this.ramal+"'" : null;
         this.idaa = this.idaa ? "'"+this.idaa+"'" : null;
     }
 
-    restoreValues(){
+    restoreValues() {
         this.id = this.id ? this.id.replaceAll("'", "") : null;
-        this.email = this.email ? this.email.replaceAll("'", "") : null;
-        this.principal = this.principal ? this.principal.replaceAll("'", "") : null;
+        this.tipo = this.tipo ? this.tipo.replaceAll("'", "") : null;
+        this.ddi = this.ddi ? this.ddi.replaceAll("'", "") : null;
+        this.ddd = this.ddd ? this.ddd.replaceAll("'", "") : null;
+        this.numero = this.numero ? this.numero.replaceAll("'", "") : null;
+        this.ramal = this.ramal ? this.ramal.replaceAll("'", "") : null;
         this.idaa = this.idaa ? this.idaa.replaceAll("'", "") : null;
     }
 }

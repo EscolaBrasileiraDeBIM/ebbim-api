@@ -1,7 +1,7 @@
-const Email = require('../models/Email');
+const Telefone = require('../models/Telefone');
 
-module.exports = class EmailController {
-    static async getEmailById(req, res) {
+module.exports = class TelefoneController {
+    static async getTelefoneById(req, res) {
         const id = req.params.id;
 
         if(!id) {
@@ -9,12 +9,12 @@ module.exports = class EmailController {
             return;
         }
 
-        const result = await Email.getEmailByID(id);
+        const result = await Telefone.getTelefoneByID(id);
 
         res.status(result.status).json(result.body);
     }
 
-    static async getEmailsByAA(req, res) {
+    static async getTelefonesByAA(req, res) {
         const id = req.params.id;
 
         if(!id) {
@@ -22,7 +22,7 @@ module.exports = class EmailController {
             return;
         }
 
-        const result = await Email.getEmailsByAA(id);
+        const result = await Telefone.getTelefonesByAA(id);
 
         res.status(result.status).json(result.body);
     }
@@ -35,7 +35,7 @@ module.exports = class EmailController {
             return;
         }
 
-        const result = await Email.deleteById(id);
+        const result = await Telefone.deleteById(id);
 
         res.status(result.status).json(result.body);
     }
@@ -48,41 +48,48 @@ module.exports = class EmailController {
             return;
         }
 
-        const result = await Email.deleteByAa(id);
+        const result = await Telefone.deleteByAa(id);
 
         res.status(result.status).json(result.body);
     }
 
     static async create(req, res) {
-        if(!req.body.email || !req.body.principal || !req.body.idaa) {
+        if(!req.body.numero || !req.body.idaa) {
             res.status(400).json({message: "Parâmetros incorretos"});
             return;
         }
 
-        const email = new Email({
-            email: req.body.email, 
-            principal: req.body.principal, 
-            idaa: req.body.idaa
+        const telefone = new Telefone({
+            id: req.body.id,
+            tipo: req.body.tipo,
+            ddi: req.body.ddi,
+            ddd: req.body.ddd,
+            numero: req.body.numero,
+            ramal: req.body.ramal,
+            idaa: req.body.idaa,
         });
 
-        const result = await email.create();
+        const result = await telefone.create();
         res.status(result.status).json(result.body);
     }
 
     static async update(req, res) {
-        if(!req.body.id, !req.body.email || !req.body.principal || !req.body.idaa) {
+        if(!req.body.id || !req.body.numero || !req.body.idaa) {
             res.status(400).json({message: "Parâmetros incorretos"});
             return;
         }
 
-        const email = new Email({
+        const telefone = new Telefone({
             id: req.body.id,
-            email: req.body.email, 
-            principal: req.body.principal, 
-            idaa: req.body.idaa
+            tipo: req.body.tipo,
+            ddi: req.body.ddi,
+            ddd: req.body.ddd,
+            numero: req.body.numero,
+            ramal: req.body.ramal,
+            idaa: req.body.idaa,
         });
 
-        const result = await email.update();
+        const result = await telefone.update();
         res.status(result.status).json(result.body);
     }
 }
