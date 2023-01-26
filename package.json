@@ -1,0 +1,26 @@
+{
+  "name": "ebbim-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./index.js localhost 3000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EscolaBrasileiraDeBIM/ebbim-api.git"
+  },
+  "keywords": [],
+  "author": "GabrieldoVal <gabrielfdoval1@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EscolaBrasileiraDeBIM/ebbim-api/issues"
+  },
+  "homepage": "https://github.com/EscolaBrasileiraDeBIM/ebbim-api#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.0.1",
+    "nodemon": "^2.0.20"
+  }
+}
